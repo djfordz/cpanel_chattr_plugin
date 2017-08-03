@@ -1,0 +1,12 @@
+[
+    {
+        "icon": "icon-48x48.png",
+        "name": "File Lock",
+        "group_id": "security",
+        "order": "10",
+        "type": "link",
+        "id": "nemj-chattr",
+        "uri": "/frontend/paper_lantern/nemj_chattr/index.live.php"
+    }
+]
+
