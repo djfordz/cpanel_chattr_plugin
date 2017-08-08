@@ -1,0 +1,57 @@
+#!/usr/local/cpanel/3rdparty/bin/perl
+
+package Nemanja::Chattr;
+
+use strict;
+
+use parent qw( Cpanel::AdminBin::Script::Call );
+
+use Cpanel::Logger          ();
+use Cpanel::Sys::Chattr     ();
+
+__PACKAGE__->run() if !caller;
+
+sub _actions {
+    return qw(
+        ENABLE
+        DISABLE
+        GET
+        );
+    }
+
+sub ENABLE {
+    my ($self, $path) = @_;
+    my $val;
+    my $fh;
+    
+    open($fh, $path);
+    $val = Cpanel::Sys::Chattr::set_attribute($fh, 'IMMUTABLE');
+
+    return "I did good with $path";
+    
+}
+
+sub DISABLE {
+    my ($self, $path) = @_;
+    my $val;
+    my $fh;
+
+
+    open($fh, $path);
+    $val = Cpanel::Sys::Chattr::remove_attribute($fh, 'IMMUTABLE');
+
+    return "I did good and removed shit with $path";
+}
+
+sub GET {
+    my ($self, $path) = @_;
+    my $val;
+    my $fh;
+
+    open($fh, $path);
+    $val = Cpanel::Sys::Chattr::get_attribute($fh, 'IMMUTABLE');
+
+    return $val;
+}
+
+1;

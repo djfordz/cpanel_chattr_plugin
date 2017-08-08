@@ -1,0 +1,73 @@
+<style>
+form {
+    margin: 0;
+    padding: 0;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+#nemj-list h4 {
+    margin-left: 233px;
+    width: 125px;
+    display: inline-block;
+}
+
+#desc {
+    margin-left: 20px;
+}
+
+#desc p {
+    color: #a0a0a0;
+}
+
+#nemj-wrapper {
+    margin: 0 auto 0 auto;
+    border-radius: 15px;
+    width: 1040px;
+    padding: 5%;
+}
+
+#nemj-wrapper p {
+    color: #a0a0a0;
+}
+
+#title {
+ width: 85%;
+ margin: 0 auto;
+}
+
+#nemj-list {
+    width: auto;
+    border-radius: 10px;
+    background-color: #e0e0e0;
+}
+
+#list {
+    width: 85%;
+    margin: 0 auto 0 auto;
+}
+
+.path {
+    padding-left: 10px;
+    width: 75%;
+    line-height: 1.5em;
+}
+
+.perms {
+    width: 75px;
+    text-align: center;
+    line-height: 1.5em;
+}
+
+.dir {
+    color: blue;
+}
+
+#list input[type="checkbox"] {
+   margin-left: 10px;
+}
+
+</style>
