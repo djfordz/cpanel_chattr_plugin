@@ -8,6 +8,9 @@ use parent qw( Cpanel::AdminBin::Script::Call );
 
 use Cpanel::Logger          ();
 use Cpanel::Sys::Chattr     ();
+use File::Find              ();
+
+my @content;
 
 __PACKAGE__->run() if !caller;
 
@@ -16,6 +19,8 @@ sub _actions {
         ENABLE
         DISABLE
         GET
+        ENABLE_RECURSE
+        DISABLE_RECURSE
         );
     }
 
@@ -54,4 +59,41 @@ sub GET {
     return $val;
 }
 
+sub ENABLE_RECURSE {
+    my ($self, $path) = @_;
+    my $fh;
+    my $val;
+
+    File::Find::find( \&wanted, $path );
+
+    foreach(@content) {
+
+        open($fh, $_);
+        $val = Cpanel::Sys::Chattr::set_attribute($fh, 'IMMUTABLE');
+    }
+
+    
+    return "I did shit and ENABLED ALL files in $path";
+}
+
+sub DISABLE_RECURSE {
+    my ( $self, $path ) = @_;
+    my $fh;
+    my $val;
+
+    File::Find::find( \&wanted, $path );
+
+    foreach(@content) {
+        
+        open($fh, $_);
+        $val = Cpanel::Sys::Chattr::remove_attribute($fh, 'IMMUTABLE');
+    }
+
+    return "I did shit and DISABLED ALL files in $path";
+}
+
+sub wanted {
+    push @content, $File::Find::name;
+    return;
+}
 1;

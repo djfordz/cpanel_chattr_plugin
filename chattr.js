@@ -105,7 +105,8 @@ function listFiles(el, paths) {
         } else if (el.childNodes[0].value === '-') {
             el.childNodes[0].value = '+';
         }
-            for(var i = 0; i < el.childElementCount; i++) {
+            console.log(el.children.length)
+            for(var i = 0; i < el.children.length; i++) {
                 if (el.lastChild.tagName == 'DIV') {
                     el.removeChild(el.lastChild);
                 }

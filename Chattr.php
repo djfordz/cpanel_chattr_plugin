@@ -123,6 +123,7 @@ class Chattr
                     'type'  => $file['type'], 
                     'path'  => $file['fullpath'], 
                     'perms' => $file['nicemode']
+                    
                 );
             }
         }
@@ -130,7 +131,74 @@ class Chattr
         return $list;
     }
 
-    protected function lsAttr($path) {
+    public function fileattr($file) {
+        $attrs = shell_exec("lsattr -a $file");
+        if($a = strpos($attrs, 'i') == 4) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function dirattr($dir) {
+        $attrs = explode("\n", shell_exec("lsattr -a $dir"));
+        foreach($attrs as $attr) {
+            $path = strstr($attr, '/');
+            $ndir = $dir . '/.' ;
+            if(strcmp($path, $ndir) === 0) {
+                if(strpos($attr, 'i') == 4) {
+                    return $path; 
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public function mutate($path) {
+        if(is_dir($path)) {
+            if($this->getAttr($path) == 16) {
+                $this->disableAttrRecurse($path);
+            } else {
+                $this->enableAttrRecurse($path); 
+            }
+             
+        } else {
+            print_r($this->getAttr($path));
+            if($this->getAttr($path) == 16) {
+                $this->disableAttr($path); 
+            } else {
+                $this->enableAttr($path);
+            }
+            
+        }
+    }
+
+    protected function enableAttrRecurse($path) {
+
+        $result = $this->cpanel->uapi(
+            'NemjChattr', 'enable_recurse',
+            array(
+                'path' => $path
+            )
+        );
+
+        print_r($result['cpanelresult']['result']['data']);
+    }
+
+    protected function disableAttrRecurse($path) {
+
+        $result = $this->cpanel->uapi(
+            'NemjChattr', 'disable_recurse',
+            array(
+                'path' => $path
+            )
+        );
+
+        print_r($result['cpanelresult']['result']['data']);
+    }
+
+    protected function getAttr($path) {
 
         $result = $this->cpanel->uapi(
             'NemjChattr', 'get',
@@ -141,4 +209,25 @@ class Chattr
         return $result['cpanelresult']['result']['data'];
     }
    
+    protected function enableAttr($path) {
+        $result = $this->cpanel->uapi(
+            'NemjChattr', 'enable',
+            array(
+                'path' => $path
+            )
+        );
+
+        print_r($result['cpanelresult']['result']['data']);
+    }
+    
+    protected function disableAttr($path) {
+        $result = $this->cpanel->uapi(
+            'NemjChattr', 'disable',
+            array(
+                'path' => $path
+            )
+        );
+
+        print_r($result['cpanelresult']['result']['data']);
+    }
 }

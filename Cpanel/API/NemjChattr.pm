@@ -72,4 +72,38 @@ sub disable {
     return $result->data($val);
 }
 
+sub enable_recurse {
+    _initialize();
+    my ( $args, $result ) = @_;
+
+    my $path = $args->get('path');
+    my $val;
+
+    $val = Cpanel::AdminBin::Call::call(
+        'Nemanja',
+        'Chattr',
+        'ENABLE_RECURSE',
+        $path,
+    );
+
+    return $result->data($val);
+}
+
+sub disable_recurse {
+    _initialize();
+    my ( $args, $result ) = @_;
+
+    my $path = $args->get('path');
+    my $val;
+
+    $val = Cpanel::AdminBin::Call::call(
+        'Nemanja',
+        'Chattr',
+        'DISABLE_RECURSE',
+        $path,
+    );
+
+    return $result->data($val);
+}
+
 1;
