@@ -167,17 +167,15 @@ function call(el, dir) {
                     el.appendChild(div);
                     if(v.parentNode.className.includes('dir-')) {
                         if(v.childNodes[1].className.includes('dir')) {
-                            dir = { path:v.childNodes[1].nextElementSibling.value };
                             v.childNodes[1].addEventListener('click', function(event) {
                                 listDir(v, this.nextElementSibling);
                             });
                             v.childNodes[7].addEventListener('click', function(event) {
-                                mutate(v, dir);
+                                mutate(v, this.parentNode.childNodes[3]);
                             });
                         } else if(v.childNodes[1].className.includes('file')) {
-                            file = { path:v.childNodes[1].value };
                             v.childNodes[5].addEventListener('click', function(event) {
-                                mutate(v, file);
+                                mutate(v, this.parentNode.childNodes[1]);
                             });
                         }
                     }   
@@ -191,20 +189,36 @@ function call(el, dir) {
 function mutate(el, dir) {
     var value;
     if(el.childNodes[1].value === '+' || el.childNodes[1].value === '-') {
-        value = el.childNodes[1].nextElementSibling.value;
+        value = el.childNodes[3].value;
     } else {
         value = el.childNodes[1].value;
     }
-    var dirName = dir.path.split('/');
+    var dirName;
+    if(dir.path) {
+        dirName = dir.path.split('/');
+    } else {
+        dirName = dir.value.split('/');
+    }
+
     var dirPath = value.split('/');
     dirPath.shift();
     dirName.shift();
-    if (dir.path.includes(value) && dirName.length == dirPath.length) {
-        var xhr = new XMLHttpRequest();
-        xhr.responseType = "document";
-        xhr.open('GET', url + '?path=' + dir.path + '&mutate=true', true);
-        xhr.send(null);
+    if(dir.path) {
+        if (dir.path.includes(value) && dirName.length == dirPath.length) {
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = "document";
+            xhr.open('GET', url + '?path=' + dir.path + '&mutate=true', true);
+            xhr.send(null);
+        }    
+    } else {
+        if (dir.value.includes(value) && dirName.length == dirPath.length) {
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = "document";
+            xhr.open('GET', url + '?path=' + dir.value + '&mutate=true', true);
+            xhr.send(null);
+        }
     }
+    
     
     if(el.childNodes[1].value === '+' || el.childNodes[1].value === '-') {
         var nodes = el.querySelectorAll('input[type=checkbox]');
