@@ -164,7 +164,6 @@ class Chattr
             }
              
         } else {
-            print_r($this->getAttr($path));
             if($this->getAttr($path) == 16) {
                 $this->disableAttr($path); 
             } else {
