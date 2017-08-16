@@ -1,116 +1,122 @@
 <script>
-function recurseDir(element) {
-    element.forEach(function(el) {
-        if(el.hasAttribute('id') && el.childNodes[1]) {
-            el.childNodes[1].addEventListener('click', function(event) {
-                listFiles(el, paths);
-            });
+function listDir(el, dir) {
+    if(el.childNodes[1].value === '+') {
+        el.childNodes[1].value = '-';
+        value = el.childNodes[3].value;
+        var dirPath = value.split('/');
+        var dirName;
+        if(dir.path) {
+            dirName = dir.path.split('/');
+        } else {
+            dirName = dir.value.split('/');
         }
-    });
-}
-
-function listFiles(el, paths) {
-    if(el.childNodes[1].value === '+' || el.childNodes[0].value === '+') {
-        var liList = [];
-        var i = 0;
-        var dir;
-        files.forEach(function(v) {
-            if(el.childNodes[1].value === '+') {
-                dir = el.childNodes[2].nextElementSibling.value;
+        dirPath.shift();
+        dirName.shift();
+        if(dir.path) {
+            if (dir.path.includes(value) && dirName.length == dirPath.length) {
+                call(el, {path:dir.path});
             }
-            else if(el.childNodes[0].value === '+') {
-                dir = el.childNodes[0].nextElementSibling.value;
+        } else {
+            if(dir.value.includes(value) && dirName.length == dirPath.length) {
+                call(el, {path:dir.value});
             }
-            paths = dir.split('/');
-            paths.shift();
-            var dirName = v['path'].split('/');
-            var dirPath = dir.split('/');
-            dirPath.shift();
-            dirName.shift();
-            dirPathPop = dirPath.pop();
-            dirNamePop = dirName.pop();
-            if(v['type'] == 'dir') {
-                if(v['path'].includes(dir) && v['path'] !== dir && dirName.length == paths.length + 1) {
-                    var div = document.createElement('div');
-                    var button = document.createElement('input');
-                    var input = document.createElement('input');
-                    var box = document.createElement('input');
-                    var perms = document.createElement('input');
-                    button.type = 'button';
-                    button.value = '+';
-                    button.className = 'expand';
-                    perms.value = v['perms'];
-                    box.type = 'checkbox';
-                    box.value = 'enable';
-                    input.value = v['path'];
-                    div.id = 'dir-' + i;
-                    input.className = 'path dir';
-                    box.className = 'check dir';
-                    perms.className = 'perms dir';
-                    el.appendChild(div);
-                    div.appendChild(button);
-                    div.appendChild(input);
-                    div.appendChild(perms);
-                    div.appendChild(box);
-                    button.addEventListener('click', function(event) {
-                        listFiles(div, paths);
-                    });
-                    box.addEventListener('click', function(event) {
-                        if (box.checked) {
-                            console.log('checked');
-                        } else {
-                            console.log('unchecked');
-                        }
-                    });
-                    i++;
-                }
-            } else if (v['type'] == 'file' && v['path'].includes(dir) && dirName.length == paths.length) {
-                    if (v['path'].includes(dir)) {
-                        var div = document.createElement('div');
-                        var input = document.createElement('input');
-                        var box = document.createElement('input');
-                        var perms = document.createElement('input');
-                        perms.value = v['perms'];
-                        box.type = 'checkbox';
-                        box.value = 'enable';
-                        input.value = v['path'];
-                        div.id = 'file-' + i;
-                        input.className = 'path';
-                        box.className = 'check';
-                        perms.className = 'perms';
-                        el.appendChild(div);
-                        div.appendChild(input);
-                        div.appendChild(perms);
-                        div.appendChild(box);
-                        box.addEventListener('click', function(event) {
-                            if (box.checked) {
-                                console.log('checked');
-                            } else {
-                                console.log('unchecked');
-                            }
-                        });
-                        i++;
-                    }
-                }
-
-                if (el.childNodes[1].value === '+') {
-                    el.childNodes[1].value = '-';
-                } else if(el.childNodes[0].value === '+') {
-                    el.childNodes[0].value = '-';
-                }
-            });
-    } else if(el.childNodes[1].value === '-' || el.childNodes[0].value === '-') {
+        }
+        checked = el.childNodes[7].checked;
+    } else if (el.childNodes[1].value === '-') {
+        var len = el.children.length;
         if(el.childNodes[1].value === '-') {
             el.childNodes[1].value = '+';
-        } else if (el.childNodes[0].value === '-') {
-            el.childNodes[0].value = '+';
         }
-            console.log(el.children.length)
-            for(var i = 0; i < el.children.length; i++) {
-                if (el.lastChild.tagName == 'DIV') {
-                    el.removeChild(el.lastChild);
-                }
+        for(var l = 0; l < len; l++) {
+            if(el.lastChild.tagName == 'DIV') {
+                el.removeChild(el.lastChild);
             }
+        }
     }
+}
+
+function call(el, dir) {
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = "document";
+    xhr.open('GET', url + '?path=' + dir.path + '&mutate=false', true);
+    xhr.send(null);
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState == 4) {
+            var x = xhr.response;
+            var element = x.querySelectorAll('li');
+            element.forEach(function(v) {
+                if(v.id.includes('li-')) {
+                    var div = document.createElement('div');
+                    div.className = 'dir-' + i;
+                    div.appendChild(v);
+                    div.style.marginLeft = '10px';
+                    el.appendChild(div);
+                    if(v.parentNode.className.includes('dir-')) {
+                        if(v.childNodes[1].className.includes('dir')) {
+                            v.childNodes[1].addEventListener('click', function(event) {
+                                listDir(v, this.nextElementSibling);
+                            });
+                            v.childNodes[7].addEventListener('click', function(event) {
+                                mutate(v, this.parentNode.childNodes[3]);
+                            });
+                        } else if(v.childNodes[1].className.includes('file')) {
+                            v.childNodes[5].addEventListener('click', function(event) {
+                                mutate(v, this.parentNode.childNodes[1]);
+                            });
+                        }
+                    }
+                }
+                i++;
+            });
+        }
+    }
+}
+
+function mutate(el, dir) {
+    var value;
+    if(el.childNodes[1].value === '+' || el.childNodes[1].value === '-') {
+        value = el.childNodes[3].value;
+    } else {
+        value = el.childNodes[1].value;
+    }
+    var dirName;
+    if(dir.path) {
+        dirName = dir.path.split('/');
+    } else {
+        dirName = dir.value.split('/');
+    }
+    var dirPath = value.split('/');
+    dirPath.shift();
+    dirName.shift();
+    if(dir.path) {
+        if (dir.path.includes(value) && dirName.length == dirPath.length) {
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = "document";
+            xhr.open('GET', url + '?path=' + dir.path + '&mutate=true', true);
+            xhr.send(null);
+        }
+    } else {
+        if (dir.value.includes(value) && dirName.length == dirPath.length) {
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = "document";
+            xhr.open('GET', url + '?path=' + dir.value + '&mutate=true', true);
+            xhr.send(null);
+        }
+    }
+
+
+    if(el.childNodes[1].value === '+' || el.childNodes[1].value === '-') {
+        var nodes = el.querySelectorAll('input[type=checkbox]');
+        if(el.childNodes[7].checked) {
+            nodes.forEach(function(node) {
+                node.checked = true;
+            });
+        } else {
+            nodes.forEach(function(node) {
+                node.checked = false;
+            });
+        }
+    }
+
 }
 </script>

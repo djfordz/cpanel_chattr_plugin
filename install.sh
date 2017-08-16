@@ -32,6 +32,7 @@ fi
 cp -v ${cwd}/index.live.php $dst
 cp -v ${cwd}/Chattr.php $dst
 cp -v ${cwd}/chattr.css $dst
+cp -v ${cwd}/chattr.js $dst
 cp -v ${cwd}/Cpanel/API/NemjChattr.pm $api
 cp -v ${cwd}/bin/admin/Nemanja/Chattr.conf $adm
 cp -v ${cwd}/bin/admin/Nemanja/Chattr $adm
