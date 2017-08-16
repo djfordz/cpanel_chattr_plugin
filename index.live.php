@@ -35,15 +35,19 @@ if (isset($_GET['path']) && $_GET['mutate'] == 'false') {
 
     <div id="nemj-list">
         <div id="title">
-        <h4><?php echo $chattr->userPath; ?></h4><h4>Perms</h4><h4>Immutable</h4>
+        <h4><?php echo $chattr->userPath . '/'; ?></h4><h4>Perms</h4><h4>Immutable</h4>
         </div>
         <ul id="list">
             <?php 
                 $i = 0; 
+                
                 foreach ($dirs as $dir) { $i++; ?> 
+                    <?php $p = explode('/', $dir['path']);
+                        $path =array_pop($p);
+                    ?>
                     <li id="<?php echo 'li-' . $i; ?>">
                         <input class="dir expand" type="submit" value="+" name="expand" />
-                        <input class="dir path" type="text" value="<?php  echo $dir['path']; ?>" name="path" readonly />
+                        <input class="dir path" type="text" value="<?php  echo $path; ?>" data-value="<?php  echo $dir['path']; ?>" name="path" readonly />
                         <input class="dir perms" type="text" value="<?php  echo $dir['perms']; ?>" name="perms" readonly />
                         <?php if($chattr->dirattr($dir['path'])) { ?>
                             <input class="check" type="checkbox" name="mutate" checked />
@@ -57,9 +61,11 @@ if (isset($_GET['path']) && $_GET['mutate'] == 'false') {
                 
                 $i = 0;
                 foreach($files as $file) { $i++; ?>
-                    
+                    <?php $p = explode('/', $file['path']); 
+                        $path = array_pop($p);
+                    ?>
                      <li id="<?php echo 'li-' . $i; ?>">
-                        <input class="file path" type="text" value="<?php  echo $file['path']; ?>" name="path" readonly />
+                        <input class="file path" type="text" value="<?php  echo $path; ?>"  data-value="<?php  echo $file['path']; ?>" name="path" readonly />
                         <input class="file perms" type="text" value="<?php  echo $file['perms']; ?>" name="perms" readonly />
                         <?php if($chattr->fileattr($file['path'])) { ?>
                             <input class="check" type="checkbox" name="mutate" checked />
@@ -78,6 +84,7 @@ var element = document.querySelectorAll('li');
 var i = 0;
 dirs = <?php echo json_encode($dirs); ?>;
 files = <?php echo json_encode($files); ?>;
+var userPath = <?php echo json_encode($chattr->userPath); ?>
 
 element.forEach(function(el) {
     if (el.id.includes('li-')) {

@@ -2,13 +2,14 @@
 function listDir(el, dir) {
     if(el.childNodes[1].value === '+') {
         el.childNodes[1].value = '-';
-        value = el.childNodes[3].value;
+        value = el.childNodes[3].dataset.value;
         var dirPath = value.split('/');
         var dirName;
+        console.log(dir);
         if(dir.path) {
             dirName = dir.path.split('/');
         } else {
-            dirName = dir.value.split('/');
+            dirName = dir.dataset.value.split('/');
         }
         dirPath.shift();
         dirName.shift();
@@ -17,8 +18,8 @@ function listDir(el, dir) {
                 call(el, {path:dir.path});
             }
         } else {
-            if(dir.value.includes(value) && dirName.length == dirPath.length) {
-                call(el, {path:dir.value});
+            if(dir.dataset.value.includes(value) && dirName.length == dirPath.length) {
+                call(el, {path:dir.dataset.value});
             }
         }
         checked = el.childNodes[7].checked;
@@ -75,15 +76,15 @@ function call(el, dir) {
 function mutate(el, dir) {
     var value;
     if(el.childNodes[1].value === '+' || el.childNodes[1].value === '-') {
-        value = el.childNodes[3].value;
+        value = el.childNodes[3].dataset.value;
     } else {
-        value = el.childNodes[1].value;
+        value = el.childNodes[1].dataset.value;
     }
     var dirName;
     if(dir.path) {
         dirName = dir.path.split('/');
     } else {
-        dirName = dir.value.split('/');
+        dirName = dir.dataset.value.split('/');
     }
     var dirPath = value.split('/');
     dirPath.shift();
@@ -96,10 +97,10 @@ function mutate(el, dir) {
             xhr.send(null);
         }
     } else {
-        if (dir.value.includes(value) && dirName.length == dirPath.length) {
+        if (dir.dataset.value.includes(value) && dirName.length == dirPath.length) {
             var xhr = new XMLHttpRequest();
             xhr.responseType = "document";
-            xhr.open('GET', url + '?path=' + dir.value + '&mutate=true', true);
+            xhr.open('GET', url + '?path=' + dir.dataset.value + '&mutate=true', true);
             xhr.send(null);
         }
     }
