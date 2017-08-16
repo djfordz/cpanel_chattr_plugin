@@ -33,7 +33,7 @@ if [ -d $dst ]; then
 	rm -rfv $dst
 fi
 
-if [ -f ${adm}/Chattr && -f ${adm}/Chattr.conf ]; then
+if [ -f ${adm}/Chattr ]; then
     rm -fv ${adm}/Chattr
     rm -fv ${adm}/Chattr.conf
 fi
