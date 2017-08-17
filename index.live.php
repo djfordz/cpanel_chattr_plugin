@@ -84,7 +84,6 @@ var element = document.querySelectorAll('li');
 var i = 0;
 dirs = <?php echo json_encode($dirs); ?>;
 files = <?php echo json_encode($files); ?>;
-var userPath = <?php echo json_encode($chattr->userPath); ?>
 
 element.forEach(function(el) {
     if (el.id.includes('li-')) {

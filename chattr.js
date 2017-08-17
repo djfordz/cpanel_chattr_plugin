@@ -5,7 +5,6 @@ function listDir(el, dir) {
         value = el.childNodes[3].dataset.value;
         var dirPath = value.split('/');
         var dirName;
-        console.log(dir);
         if(dir.path) {
             dirName = dir.path.split('/');
         } else {
@@ -50,7 +49,8 @@ function call(el, dir) {
                     var div = document.createElement('div');
                     div.className = 'dir-' + i;
                     div.appendChild(v);
-                    div.style.marginLeft = '10px';
+                    v.style.paddingLeft = '10px';
+                    v.style.paddingRight = '10px';
                     el.appendChild(div);
                     if(v.parentNode.className.includes('dir-')) {
                         if(v.childNodes[1].className.includes('dir')) {
