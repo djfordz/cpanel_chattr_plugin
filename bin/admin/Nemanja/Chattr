@@ -32,7 +32,7 @@ sub ENABLE {
     open($fh, $path);
     $val = Cpanel::Sys::Chattr::set_attribute($fh, 'IMMUTABLE');
 
-    return "I did good with $path";
+    return " $path is immutable";
     
 }
 
@@ -45,7 +45,7 @@ sub DISABLE {
     open($fh, $path);
     $val = Cpanel::Sys::Chattr::remove_attribute($fh, 'IMMUTABLE');
 
-    return "I did good and removed shit with $path";
+    return "$path is mutable";
 }
 
 sub GET {
@@ -73,7 +73,7 @@ sub ENABLE_RECURSE {
     }
 
     
-    return "I did shit and ENABLED ALL files in $path";
+    return "All files in $path are immutable";
 }
 
 sub DISABLE_RECURSE {
@@ -89,7 +89,7 @@ sub DISABLE_RECURSE {
         $val = Cpanel::Sys::Chattr::remove_attribute($fh, 'IMMUTABLE');
     }
 
-    return "I did shit and DISABLED ALL files in $path";
+    return "All files in $path are mutable";
 }
 
 sub wanted {
