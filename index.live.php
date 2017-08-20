@@ -16,14 +16,14 @@ print $cpanel->header("File Lock", "nemj-chattr");
 $dirs = $chattr->listDirs();
 $files = $chattr->listFiles();
 
-if (isset($_GET['path']) && $_GET['mutate'] == 'false') {
+if (isset(urlencode($_GET['path'])) && urlencode($_GET['mutate']) == 'false') {
     $path = $_GET['path'];
-    $dirs = $chattr->listDirs(strip_tags(trim($path)));
-    $files = $chattr->listFiles(strip_tags(trim($path)));
+    $dirs = $chattr->listDirs(urlencode(strip_tags(trim($path))));
+    $files = $chattr->listFiles(urlencode(strip_tags(trim($path))));
 
     
-} else if(isset($_GET['path']) && $_GET['mutate'] == 'true') {
-    $chattr->mutate(strip_tags(trim($_GET['path'])));
+} else if(isset(urlencode($_GET['path'])) && urlencode($_GET['mutate']) == 'true') {
+    $chattr->mutate(urlencode(strip_tags(trim($_GET['path']))));
 }
 
 ?>
