@@ -20,6 +20,7 @@ class Chattr
 
     public function listAll($path = false)
     {
+        $path = urldecode($path);
         if($path === false) {
             $path = $this->userPath;
         }
@@ -60,6 +61,8 @@ class Chattr
 
     public function listDirs($dir = false)
     {
+        $dir = urldecode($dir);
+
         if($dir == false) {
             $dir = $this->userPath;
         }
@@ -96,6 +99,8 @@ class Chattr
 
     public function listFiles($dir = false)
     {
+        $dir = urldecode($dir);
+
         if($dir == false) {
             $dir = $this->userPath;
         }
@@ -156,6 +161,8 @@ class Chattr
     }
 
     public function mutate($path) {
+        $path = urldecode($path);
+
         if(is_dir($path)) {
             if($this->getAttr($path) == 16) {
                 $this->disableAttrRecurse($path);

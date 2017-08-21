@@ -17,13 +17,13 @@ $dirs = $chattr->listDirs();
 $files = $chattr->listFiles();
 
 if (isset($_GET['path']) && $_GET['mutate'] == 'false') {
-    $path = strip_tags(trim($_GET['path']));
+    $path = urlencode(strip_tags(trim($_GET['path'])));
     $dirs = $chattr->listDirs($path);
     $files = $chattr->listFiles($path);
 
     
 } else if (isset($_GET['path']) && $_GET['mutate'] == 'true') {
-    $chattr->mutate(strip_tags(trim($_GET['path'])));
+    $chattr->mutate(urlencode(strip_tags(trim($_GET['path']))));
 }
 
 ?>
