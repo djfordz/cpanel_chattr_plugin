@@ -1,13 +1,16 @@
 # Make Files Immutable
 
-To install, copy archive to installation server.
-`wget https://raw.github.com/djfordz/cpanel_chattr_plugin/master/nemj_chattr.tar.gz`
+To install, copy release archive to installation server.
+`wget -O nemj_chattr-1.0.0.tar.gz https://github.com/djfordz/cpanel_chattr_plugin/archive/1.0.0.tar.gz`
+
+or select releases tab in github and download release.
+https://github.com/djfordz/cpanel_chattr_plugin/releases
 
 untar the archive
-`tar -xvf nemj_chattr.tar.gz`
+`tar -xvf nemj_chattr-1.0.0.tar.gz`
 
 cd into nemj_chattr directory
-`cd nemj_chattr`
+`cd cpanel_chattr_plugin-1.0.0`
 
 make install script executable 
 `chmod +x install.sh`
