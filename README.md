@@ -1,4 +1,6 @@
-# Make Files Immutable
+# Cpanel plugin which makes Files Immutable
+
+![screenshot](cpanel_chattr_plugin.png)
 
 To install, copy release archive to installation server, extract and use `install.sh` script.
 
