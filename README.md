@@ -1,22 +1,16 @@
 # Make Files Immutable
 
-To install, copy release archive to installation server.
-`wget -O nemj_chattr-1.0.0.tar.gz https://github.com/djfordz/cpanel_chattr_plugin/archive/1.0.0.tar.gz`
+To install, copy release archive to installation server, extract and use `install.sh` script.
 
-or select releases tab in github and download release.
-https://github.com/djfordz/cpanel_chattr_plugin/releases
+```
+wget -O cpanel_chattr_plugin-1.0.0.tar.gz https://github.com/djfordz/cpanel_chattr_plugin/archive/1.0.0.tar.gz
+tar -xvf cpanel_chattr_plugin-1.0.0.tar.gz && cd cpanel_chattr_plugin-1.0.0
+chmod +x install.sh
+./install.sh
+```
 
-untar the archive
-`tar -xvf nemj_chattr-1.0.0.tar.gz`
+or select [releases](https://github.com/djfordz/cpanel_chattr_plugin/releases) tab in github and download [release](https://github.com/djfordz/cpanel_chattr_plugin/releases)
 
-cd into nemj_chattr directory
-`cd cpanel_chattr_plugin-1.0.0`
-
-make install script executable 
-`chmod +x install.sh`
-
-run install script
-`./install.sh`
 
 A new icon called File Lock will appear in cpanel user list under security group.
 
