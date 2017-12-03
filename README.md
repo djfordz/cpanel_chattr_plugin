@@ -3,13 +3,13 @@
 To install, copy release archive to installation server, extract and use `install.sh` script.
 
 ```
-wget -O cpanel_chattr_plugin-1.0.0.tar.gz https://github.com/djfordz/cpanel_chattr_plugin/archive/1.0.0.tar.gz
+wget -O cpanel_chattr_plugin-1.0.0.tar.gz https://github.com/TransgressInc/cpanel_chattr_plugin/archive/1.0.0.tar.gz
 tar -xvf cpanel_chattr_plugin-1.0.0.tar.gz && cd cpanel_chattr_plugin-1.0.0
 chmod +x install.sh
 ./install.sh
 ```
 
-or select [releases](https://github.com/djfordz/cpanel_chattr_plugin/releases) tab in github and download [release](https://github.com/djfordz/cpanel_chattr_plugin/releases)
+or select [releases](https://github.com/TransgressInc/cpanel_chattr_plugin/releases) tab in github and download [release](https://github.com/TransgressInc/cpanel_chattr_plugin/releases)
 
 
 A new icon called File Lock will appear in cpanel user list under security group.
